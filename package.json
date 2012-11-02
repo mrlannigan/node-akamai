@@ -1,0 +1,34 @@
+{
+  "name": "akamai",
+  "version": "0.0.1",
+  "description": "Communication with Akamai's CCUAPI",
+  "keywords": [
+    "api",
+    "akamai",
+    "cdn"
+  ],
+  "author": "Julian Lannigan <julian@jlconsulting.co> (http://julianlannigan.com)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mrlannigan/node-akamai.git"
+  },
+  "bugs": {
+    "url": "http://github.com/mrlannigan/node-akamai/issues"
+  },
+  "license": "MIT",
+  "main": "akamai.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "directories": {
+    "examples": "examples"
+  },
+  "dependencies": {
+    "request": "2.11.4",
+    "underscore": "1.4.2",
+    "xml2js": "0.2.0"
+  },
+  "engines": {
+    "node": ">= 0.6.0"
+  }
+}
