@@ -12,10 +12,12 @@ var res = new purge.AkamaiPurgeResponse('<?xml version="1.0" encoding="UTF-8"?>'
 // var res = new purge.AkamaiPurgeResponse('<?xml version="1.0" encoding="UTF-8"?>'+
 // '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Server</faultcode><faultstring>Exception: class org.xml.sax.SAXParseException: Content is not allowed in trailing section.</faultstring></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>');
 
+var res = new purge.AkamaiPurgeRequestBody(['http://google.com']);
+
 // res.process(function(err) {
 // 	//if (err) return console.log(err);
 
 // 	//console.log(require('util').inspect(res, 1, null, 1));
 // });
 
-console.log(res);
+console.log(res.toXML());
