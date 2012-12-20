@@ -18,7 +18,7 @@
   "license": "MIT",
   "main": "akamai.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt"
   },
   "directories": {
     "examples": "examples"
@@ -28,6 +28,9 @@
     "underscore": "1.4.2",
     "xml2js": "0.2.0",
     "async": "0.1.22"
+  },
+  "devDependencies": {
+    "grunt": "0.3.17"
   },
   "engines": {
     "node": ">= 0.6.0"
