@@ -35,7 +35,7 @@ exports['purge'] = {
         var a = new akamia.purge();
     });
 
-    test.throws(function(){
+    test.doesNotThrow(function(){
         var a = akamia.purge();
     });
     test.done();
