@@ -1,11 +1,12 @@
 {
   "name": "akamai",
-  "version": "0.1.2",
-  "description": "Communication with Akamai's CCUAPI",
+  "version": "0.9.0",
+  "description": "Communication with Akamai's REST API",
   "keywords": [
     "api",
     "akamai",
-    "cdn"
+    "cdn",
+    "rest"
   ],
   "author": "Julian Lannigan <julian@jlconsulting.co> (http://julianlannigan.com)",
   "repository": {
@@ -18,22 +19,29 @@
   "license": "MIT",
   "main": "akamai.js",
   "scripts": {
-    "test": "grunt"
+    "doc": "node_modules/.bin/docco akamai.js lib/*",
+    "test": "node_modules/.bin/mocha --slow 5 --timeout 100 --colors --reporter spec --check-leaks test/runner.js",
+    "coverage": "node_modules/.bin/mocha --slow 5 --timeout 100 --colors --reporter html-cov --check-leaks test/runner.js > coverage.html"
   },
   "directories": {
     "examples": "examples"
   },
   "dependencies": {
-    "request": "2.11.4",
-    "underscore": "1.4.2",
-    "xml2js": "0.2.0",
-    "async": "0.1.22",
-    "q": "~1.0.0"
+    "request": "2.36.x",
+    "lodash": "2.4.x",
+    "when": "3.2.x"
   },
   "devDependencies": {
-    "grunt": "0.3.17"
+    "docco": "0.6.x",
+    "mocha": "1.20.x",
+    "blanket": "1.1.x"
   },
   "engines": {
-    "node": ">= 0.6.0"
+    "node": ">= 0.10.0"
+  },
+  "config": {
+    "blanket": {
+      "pattern": ["akamai.js", "/lib/"]
+    }
   }
 }
