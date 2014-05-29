@@ -1,3 +1,3 @@
 /*jshint node: true, eqnull: true*/
 
-exports.purge = require('./lib/purge').AkamaiPurge;
+exports.purge = require('./lib/purge');
