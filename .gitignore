@@ -16,3 +16,4 @@ npm-debug.log
 
 test.js
 .idea
+coverage.html

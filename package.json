@@ -19,7 +19,7 @@
   "license": "MIT",
   "main": "akamai.js",
   "scripts": {
-    "doc": "node_modules/.bin/docco akamai.js lib/*",
+    "doc": "node_modules/.bin/docco akamai.js lib/* examples/*",
     "test": "node_modules/.bin/mocha --slow 5 --timeout 100 --colors --reporter spec --check-leaks test/runner.js",
     "coverage": "node_modules/.bin/mocha --slow 5 --timeout 100 --colors --reporter html-cov --check-leaks test/runner.js > coverage.html"
   },
@@ -32,16 +32,12 @@
     "when": "3.2.x"
   },
   "devDependencies": {
+    "blanket": "1.1.x",
     "docco": "0.6.x",
     "mocha": "1.20.x",
-    "blanket": "1.1.x"
+    "rewire": "^2.0.1"
   },
   "engines": {
     "node": ">= 0.10.0"
-  },
-  "config": {
-    "blanket": {
-      "pattern": ["akamai.js", "/lib/"]
-    }
   }
 }

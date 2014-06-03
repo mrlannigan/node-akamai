@@ -1,8 +1,6 @@
 # Akamai API for Node.js
 
-node-akamai allows for easy communication with Akamai's SOAP CCUAPI to purge/invalidate cached objects.
-
-***Note: The API for this module is going to be changing in the near future to better wrap the different functions the purge API provides.***
+node-akamai allows for easy communication with Akamai's REST CCU API to purge/invalidate cached objects.
 
 ## Installation
 
@@ -13,34 +11,54 @@ node-akamai allows for easy communication with Akamai's SOAP CCUAPI to purge/inv
 ```javascript
 var akamai = require('akamai');
 
-var myPurge = new akamai.purge([
+akamai.purge('john@example.com', '...', [
   'http://example.com/somewhere',
   'http://example.com/cool',
   'http://example.com/but',
   'http://example.com/nowhere',
   'http://example.com/real'
-], {
-  user: 'john@example.com',
-  password: '...',
-  domain: 'production',
-  notify: ['john@example.com', 'developers@example.com']
-}, function(err, responses) {
-  if (err) {
-    console.log(err);
-    return;
-  }
+], {domain: 'staging', action: 'invalidate'}).then(function (response) {
+  console.log(response);
+}).catch(function (err) {
+  console.log(err.body);
+  console.trace();
+});
 
-  console.log(require('util').inspect(responses, true, 3, true));
+// ===
+
+akamai.invalidate.staging.url('john@example.com', '...', [
+  'http://example.com/somewhere',
+  'http://example.com/cool',
+  'http://example.com/but',
+  'http://example.com/nowhere',
+  'http://example.com/real'
+]).then(function (response) {
+  console.log(response);
+}).catch(function (err) {
+  console.log(err.body);
+  console.trace();
 });
 ```
 
-##.purge(urls, options, [callback])
+See more examples:
+* [basic purge](examples/basic_purge.js)
+* [chainable configuration](examples/chainable_purge.js)
 
-Create a purge request. Note that any request made must declared with the `new` keyword.  The resulting object is an extension of the `EventEmitter` so you are able to attach to the various events that are listed below.
+## .purge(username, password, objects[, options])
 
-### urls
+Create a purge request. Returns a promise.
 
-Array of strings representing the full urls of the content you wish to be purged.  Depending on the options.type value, this array can represent cpcode names to be purged/invalidated.
+### username
+
+Username of account with access to API.
+
+### password
+
+Password for that account.
+
+### objects
+
+Array of strings representing the full urls/cpcodes of the content you wish to be purged.  Depending on the options.type value, this array can represent cpcode names to be purged/invalidated.
 
 ### options
 
@@ -53,36 +71,20 @@ Array of strings representing the full urls of the content you wish to be purged
 * `action`
   * `remove` [Default]
   * `invalidate`
-* `user` [Required] Username to authenicate with the API.
-* `password` [Required] Password for the user.
-* `notify` [Required] String or Array of Strings representing email address(es).
 
-### callback(err, responses)
+### Option Modifiers
 
-Provides 2 arguments, the error object and the responses array.  The error object is null if no error occurred.  The responses array contains instances of the `AkamaiPurgeResponse` class.  This class parses and describes the response from the API.
+This library offers a more readable way to set the options for a API request.  See [constants.js](lib/constants.js#L13).  At the root level of this library only the following modifiers are available:
 
-### events
+* `remove`
+* `invalidate`
+* `purge`
 
-#### `error`
-```js
-myPurge.on('error', function(err, response, request, urlSet) {
-  console.log(err);
-});
-```
+All modifier functions only take username, password, and objects as arguments.
 
-#### `success`
-```js
-myPurge.on('success', function(responses) {
-  console.log(responses);
-});
-```
+## .queue(username, password)
 
-#### `request-success`
-```js
-myPurge.on('request-success', function(response) {
-  console.log(response);
-});
-```
+Make a request to check the length of the queue.
 
 ## Bugs or Feature Requests?
 
@@ -93,7 +95,7 @@ Please use GitHub's issue tracker.
 Node-Akamai is available under the MIT license
 
 ```
-Copyright (c) 2012 Julian Lannigan
+Copyright (c) 2014 Julian Lannigan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

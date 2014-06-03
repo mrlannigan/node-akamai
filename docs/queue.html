@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>queue.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="akamai.html">
+                akamai.js
+              </a>
+            
+              
+              <a class="source" href="basic_purge.html">
+                basic_purge.js
+              </a>
+            
+              
+              <a class="source" href="chainable_purge.html">
+                chainable_purge.js
+              </a>
+            
+              
+              <a class="source" href="constants.html">
+                constants.js
+              </a>
+            
+              
+              <a class="source" href="purge.html">
+                purge.js
+              </a>
+            
+              
+              <a class="source" href="queue.html">
+                queue.js
+              </a>
+            
+              
+              <a class="source" href="request.html">
+                request.js
+              </a>
+            
+              
+              <a class="source" href="status.html">
+                status.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>queue.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Dependencies</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> AkamaiRequest = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./request'</span>).AkamaiRequest,
+  constants = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./constants'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <h2 id="akamai-queue-length">Akamai Queue Length</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Request your accounts current object queue status/length. Returns an <code>AkamaiRequest</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">AkamaiQueueLength</span><span class="hljs-params">(username, password)</span> {</span>
+  <span class="hljs-keyword">var</span> requestOptions,
+    auth = {};
+
+  auth.username = username;
+  auth.password = password;
+
+  requestOptions = {
+    uri: constants.AKAMAI_API_QUEUE,
+    method: <span class="hljs-string">'GET'</span>,
+    auth: auth,
+    json: <span class="hljs-literal">true</span>
+  };
+
+  <span class="hljs-keyword">return</span> AkamaiRequest(requestOptions);
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Expose <code>AkamaiQueueLength</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>exports.AkamaiQueueLength = AkamaiQueueLength;</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

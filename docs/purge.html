@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>purge.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="akamai.html">
+                akamai.js
+              </a>
+            
+              
+              <a class="source" href="basic_purge.html">
+                basic_purge.js
+              </a>
+            
+              
+              <a class="source" href="chainable_purge.html">
+                chainable_purge.js
+              </a>
+            
+              
+              <a class="source" href="constants.html">
+                constants.js
+              </a>
+            
+              
+              <a class="source" href="purge.html">
+                purge.js
+              </a>
+            
+              
+              <a class="source" href="queue.html">
+                queue.js
+              </a>
+            
+              
+              <a class="source" href="request.html">
+                request.js
+              </a>
+            
+              
+              <a class="source" href="status.html">
+                status.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>purge.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Dependencies</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> when = <span class="hljs-built_in">require</span>(<span class="hljs-string">'when'</span>),
+  lodash = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>),
+  constants = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./constants'</span>),
+  AkamaiRequest = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./request'</span>).AkamaiRequest,
+  AkamaiStatus = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./status'</span>).AkamaiStatus;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Warn wrapper function</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">warn</span><span class="hljs-params">(message)</span> {</span>
+  console.warn(<span class="hljs-string">'akamai: WARNING: '</span> + message);
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <h2 id="akamai-purge">Akamai Purge</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Cornerstone function that sends a purge request to Akamai’s CCU REST API
+It will return a promise. <code>options</code> is optional.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">AkamaiPurge</span><span class="hljs-params">(username, password, objects, options)</span> {</span>
+  <span class="hljs-keyword">var</span> auth = {},
+    requestBody = {},
+    requestOptions;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Ensure options exist and are the right type</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (options === <span class="hljs-literal">undefined</span> || !lodash.isPlainObject(options)) {
+    options = {};
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Prepare authentication</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  auth.username = username;
+  auth.password = password;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Validate the given type</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (-<span class="hljs-number">1</span> !== constants.VALID_TYPES.indexOf(options.type)) {
+    requestBody.type = options.type;
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (options.hasOwnProperty(<span class="hljs-string">'type'</span>)) {
+    warn(<span class="hljs-string">'Invalid purge request type. Valid types: ['</span> + constants.VALID_TYPES.join(<span class="hljs-string">', '</span>) + <span class="hljs-string">']. Given: '</span> + options.type);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Validate the given domain</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (-<span class="hljs-number">1</span> !== constants.VALID_DOMAINS.indexOf(options.domain)) {
+    requestBody.domain = options.domain;
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (options.hasOwnProperty(<span class="hljs-string">'domain'</span>)) {
+    warn(<span class="hljs-string">'Invalid purge request domain. Valid domains: ['</span> + constants.VALID_DOMAINS.join(<span class="hljs-string">', '</span>) + <span class="hljs-string">']. Given: '</span> + options.domain);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Validate the given action</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (-<span class="hljs-number">1</span> !== constants.VALID_ACTIONS.indexOf(options.action)) {
+    requestBody.action = options.action;
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (options.hasOwnProperty(<span class="hljs-string">'action'</span>)) {
+    warn(<span class="hljs-string">'Invalid purge request action. Valid actions: ['</span> + constants.VALID_ACTIONS.join(<span class="hljs-string">', '</span>) + <span class="hljs-string">']. Given: '</span> + options.action);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Append objects to the request body</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  requestBody.objects = objects;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Prepare request’s options</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  requestOptions = {
+    uri: constants.AKAMAI_API_QUEUE,
+    method: <span class="hljs-string">'POST'</span>,
+    json: requestBody,
+    auth: auth
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Reset all modifiers</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  applyModifiers(AkamaiPurge);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Create request and return the promise</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">return</span> AkamaiRequest(requestOptions).then(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(response)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Do some post-processing on the response</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    response.requestBody = requestBody;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Add a status function that pre-configured to call this purge’s <code>progressUri</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    response.status = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>If this purge doesn’t have a <code>progressUri</code>, return a rejection</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (!response.hasOwnProperty(<span class="hljs-string">'progressUri'</span>)) {
+        <span class="hljs-keyword">return</span> when.reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Missing progressUri from response'</span>));
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Otherwise, call <code>AkamaiStatus</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> AkamaiStatus(username, password, response.progressUri);
+    };
+
+    <span class="hljs-keyword">return</span> response;
+  });
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <h2 id="modifiers">Modifiers</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Alter <code>object</code> with getters defined by <code>constants.MODIFIERS</code>
+and also maintain “current” set of options. This creates a kind of
+recursive and chainable configuration for the impending request to Akamai.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyModifiers</span><span class="hljs-params">(object, options)</span> {</span>
+  options = options || {};
+
+  lodash.forEach(constants.MODIFIERS, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(modifier, property)</span> {</span>
+    <span class="hljs-built_in">Object</span>.defineProperty(object, property, {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>Allow the property to be shown/looped</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      enumerable: <span class="hljs-literal">true</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Allow the property to be reset</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      configurable: <span class="hljs-literal">true</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Returns a new function pre-configured with the options that exist up to this point</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      get: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Apply the modifier to the current <code>options</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        options = lodash.assign(options, modifier);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Create new wrapper function.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> AkamaiPurgeChain = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">AkamaiPurgeChain</span> <span class="hljs-params">(username, password, objects)</span> {</span>
+          <span class="hljs-keyword">return</span> AkamaiPurge(username, password, objects);
+        };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Apply new modifiers to given wrapper function</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        applyModifiers(AkamaiPurgeChain, options);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Expose current <code>options</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        AkamaiPurgeChain.options = options;
+
+        <span class="hljs-keyword">return</span> AkamaiPurgeChain;
+      }
+    });
+  });
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>Apply modifiers</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>applyModifiers(AkamaiPurge);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>Expose <code>AkamaiPurge</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>exports.AkamaiPurge = AkamaiPurge;</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
