@@ -505,7 +505,7 @@ recursive and chainable configuration for the impending request to Akamai.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> AkamaiPurgeChain = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">AkamaiPurgeChain</span> <span class="hljs-params">(username, password, objects)</span> {</span>
-          <span class="hljs-keyword">return</span> AkamaiPurge(username, password, objects);
+          <span class="hljs-keyword">return</span> AkamaiPurge(username, password, objects, options);
         };</pre></div></div>
             
         </li>
@@ -573,6 +573,31 @@ recursive and chainable configuration for the impending request to Akamai.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>exports.AkamaiPurge = AkamaiPurge;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>Expose private functions for testing</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">Object</span>.defineProperties(exports, {
+  _warn: {
+    configurable: <span class="hljs-literal">true</span>,
+    writable: <span class="hljs-literal">true</span>,
+    value: warn
+  },
+  _applyModifiers: {
+    configurable: <span class="hljs-literal">true</span>,
+    value: applyModifiers
+  }
+});</pre></div></div>
             
         </li>
         
