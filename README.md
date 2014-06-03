@@ -84,7 +84,7 @@ All modifier functions only take username, password, and objects as arguments.
 
 ## .queue(username, password)
 
-Make a request to check the length of the queue.
+Make a request to check the length of the queue. Returns a promise.
 
 ## Bugs or Feature Requests?
 
