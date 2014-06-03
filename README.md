@@ -1,6 +1,6 @@
 # Akamai API for Node.js
 
-[![Build Status](https://travis-ci.org/mrlannigan/node-akamai.svg)](https://travis-ci.org/mrlannigan/node-akamai)
+[![Build Status](https://travis-ci.org/mrlannigan/node-akamai.svg)](https://travis-ci.org/mrlannigan/node-akamai) [![Coverage Status](https://img.shields.io/coveralls/mrlannigan/node-akamai.svg)](https://coveralls.io/r/mrlannigan/node-akamai)
 
 node-akamai allows for easy communication with Akamai's REST CCU API to purge/invalidate cached objects.
 
