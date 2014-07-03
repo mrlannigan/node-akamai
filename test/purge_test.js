@@ -5,25 +5,11 @@ var assert = require('assert'),
   rewire = require('rewire'),
   lodash = require('lodash'),
   constants = require('../lib/constants'),
-  mocks = require('./mocks');
+  mocks = require('./mocks'),
+  sinon = require('sinon'),
+  should = require('should');
 
 describe('AkamaiPurge', function () {
-
-  describe('#warn()', function () {
-    before(function () {
-      this.AkamaiPurge = rewire('./../lib/purge.js');
-      this.AkamaiPurge.__set__('console', {
-        warn: function (msg) {
-          assert.equal(msg, 'akamai: WARNING: Test warning');
-        }
-      });
-    });
-
-
-    it('should output using console.warn', function () {
-      this.AkamaiPurge.__get__('warn')('Test warning');
-    });
-  });
 
   describe('basic purge request', function () {
     beforeEach(function () {
