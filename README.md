@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mrlannigan/node-akamai.svg)](https://travis-ci.org/mrlannigan/node-akamai)
 
-[![NPM](https://nodei.co/npm/akamai.png?downloads=true&stars=true)](https://nodei.co/npm/akamai/) [![NPM](https://nodei.co/npm-dl/akamai.png?months=6)](https://nodei.co/npm/akamai/)
+[![NPM](https://nodei.co/npm/akamai.png?downloads=true&stars=true)](https://nodei.co/npm/akamai/) [![NPM](https://nodei.co/npm-dl/akamai.png?months=6&height=2)](https://nodei.co/npm/akamai/)
 
 node-akamai allows for easy communication with Akamai's REST CCU API to purge/invalidate cached objects.
 
