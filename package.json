@@ -35,7 +35,9 @@
     "blanket": "1.1.x",
     "docco": "0.6.x",
     "mocha": "1.20.x",
-    "rewire": "^2.0.1"
+    "rewire": "^2.x.x",
+    "should": "^4.x.x",
+    "sinon": "^1.x.x"
   },
   "engines": {
     "node": ">= 0.10.0"

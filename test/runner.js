@@ -7,3 +7,4 @@ require('./purge_test');
 require('./status_test');
 require('./request_test');
 require('./queue_test');
+require('./utility_test')
