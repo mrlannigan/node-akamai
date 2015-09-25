@@ -90,6 +90,10 @@ All modifier functions only take username, password, and objects as arguments.
 
 Make a request to check the length of the queue. Returns a promise.
 
+## .status(username, password, progressUri)
+
+Make a request to check status of a given progressUri. Returns a promise.
+
 ## Bugs or Feature Requests?
 
 Please use GitHub's issue tracker.
