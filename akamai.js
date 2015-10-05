@@ -24,3 +24,6 @@ Object.defineProperty(exports, 'remove', {
 
 // Export the queue request
 exports.queue = require('./lib/queue').AkamaiQueueLength;
+
+// Export the status request
+exports.status = require('./lib/status').AkamaiStatus;
