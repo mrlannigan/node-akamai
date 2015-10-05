@@ -76,6 +76,10 @@ Array of strings representing the full urls/cpcodes of the content you wish to b
   * `remove` [Default]
   * `invalidate`
 
+### response
+
+In the result of the request's promise, the response will contain a `.status` function that is pre-configured to execute a `AkamaiStatus` request with the purge request's `progressUri`.
+
 ### Option Modifiers
 
 This library offers a more readable way to set the options for a API request.  See [constants.js](lib/constants.js#L13).  At the root level of this library only the following modifiers are available:
@@ -93,6 +97,15 @@ Make a request to check the length of the queue. Returns a promise.
 ## .status(username, password, progressUri)
 
 Make a request to check status of a given progressUri. Returns a promise.
+
+Note, that if you are using this within a purge request, you will be able to execute `response.status()` to retrieve a request's status in Akamai's queue.
+
+## Changelog
+
+### 0.10.0
+
+* Exposed `AkamaiStatus` as `.status` at the module level. Thanks @alex-alexandrescu
+* Updated documentation to better explain the usage of `AkamaiStatus` in the response of a purge.
 
 ## Bugs or Feature Requests?
 
