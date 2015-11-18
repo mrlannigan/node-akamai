@@ -102,6 +102,10 @@ Note, that if you are using this within a purge request, you will be able to exe
 
 ## Changelog
 
+### 0.10.1
+
+* [[b75b6f0](https://github.com/mrlannigan/node-akamai/commit/b75b6f089dff392237b10521c4f2cd1823a0df71)] update travis node versions
+
 ### 0.10.0
 
 * Exposed `AkamaiStatus` as `.status` at the module level. Thanks @alex-alexandrescu
