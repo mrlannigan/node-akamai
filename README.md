@@ -117,7 +117,7 @@ Please use GitHub's issue tracker.
 
 ## License
 
-Node-Akamai is available under the MIT license
+node-akamai is available under the MIT license
 
 ```
 Copyright (c) 2014 Julian Lannigan
